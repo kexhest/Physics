@@ -1,6 +1,12 @@
 import rAF from 'raf'
 import ParticleSystem from './ParticleSystem'
 
+export { Vector } from './Vector'
+export { Particle } from './Particle'
+export { Spring } from './Spring'
+export { Attraction } from './Attraction'
+export { Integrator } from './Integrator'
+
 /**
  * Extended singleton instance of ParticleSystem with convenience methods for
  * Request Animation Frame.

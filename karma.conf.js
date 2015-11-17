@@ -1,5 +1,5 @@
-module.exports = function (config) {
-  config.set({
+module.exports = function (karma) {
+  karma.set({
     basePath: '.',
     frameworks: ['mocha', 'sinon-chai'],
     files: [

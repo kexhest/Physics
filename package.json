@@ -19,24 +19,30 @@
     "type": "git",
     "url": "git@github.com:magnus-bergman/Physics.git"
   },
-  "main": "./src/Physics.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test karma start karma.conf.js --log-level debug --single-run",
     "lint": "standard",
     "clean": "rimraf build",
-    "dev": "NODE_ENV=dev webpack -p --colors --progress",
-    "build": "NODE_ENV=production webpack -p --colors --progress",
-    "prepublish": "npm-run-all dev build"
+    "prebuild": "npm run clean -s",
+    "build": "npm-run-all build:dev build:prod",
+    "build:dev": "NODE_ENV=dev webpack -p --colors --progress",
+    "build:prod": "NODE_ENV=production webpack -p --colors --progress",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
   },
+  "files": [
+    "lib"
+  ],
   "standard": {
     "parser": "babel-eslint"
   },
   "dependencies": {
+    "babel-cli": "^6.1.18",
     "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.5",
     "babel-loader": "^6.1.0",
     "babel-preset-es2015": "^6.1.18",
-    "expose-loader": "^0.7.1",
     "karma": "^0.13.15",
     "karma-chrome-launcher": "^0.2.1",
     "karma-cli": "0.1.1",
@@ -54,5 +60,5 @@
     "webpack": "^1.12.6"
   },
   "devDependencies": {},
-  "license" : "MIT"
+  "license": "MIT"
 }
