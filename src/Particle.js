@@ -1,62 +1,59 @@
-define([
-  'Vector',
-  'common'
-], function(Vector, _) {
+import Vector from './Vector'
 
-  var Particle = function(mass) {
+export default class Particle {
 
-    this.position = new Vector();
-    this.velocity = new Vector();
-    this.force = new Vector();
-    this.mass = mass;
-    this.fixed = false;
-    this.age = 0;
-    this.dead = false;
+  constructor (mass, x, y) {
+    this.position = new Vector(x, y)
 
-  };
+    this.velocity = new Vector()
+    this.force = new Vector()
 
-  _.extend(Particle.prototype, {
+    this.mass = mass
 
-    /**
-     * Get the distance between two particles.
-     */
-    distanceTo: function(p) {
-      return this.position.distanceTo(p.position);
-    },
+    this.fixed = false
 
-    /**
-     * Make the particle fixed in 2D space.
-     */
-    makeFixed: function() {
-      this.fixed = true;
-      this.velocity.clear();
-      return this;
-    },
+    this.age = 0
+    this.dead = false
+  }
 
-    /**
-     * Reset a particle.
-     */
-    reset: function() {
+  /**
+   * Get the distance between two particles.
+   */
+  distanceTo (p) {
+    return this.position.distanceTo(p.position)
+  }
 
-      this.age = 0;
-      this.dead = false;
-      this.position.clear();
-      this.velocity.clear();
-      this.force.clear();
-      this.mass = 1.0;
+  /**
+   * Make the particle fixed in 2D space.
+   */
+  makeFixed () {
+    this.fixed = true
+    this.velocity.clear()
 
-      return this;
-    },
+    return this
+  }
 
-    /**
-     * Returns a boolean describing whether the particle is in movement.
-     */
-    resting: function() {
-      return this.fixed || this.velocity.isZero() && this.force.isZero();
-    }
+  /**
+   * Reset a particle.
+   */
+  reset () {
+    this.clear()
+    this.velocity.clear()
+    this.force.clear()
 
-  });
+    this.mass = 1.0
 
-  return Particle;
+    this.age = 0
+    this.dead = false
 
-})
+    return this
+  }
+
+  /**
+   * Returns a boolean describing whether the particle is in movement.
+   */
+  resting () {
+    return this.fixed || this.velocity.isZero() && this.force.isZero()
+  }
+
+}

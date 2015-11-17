@@ -21,8 +21,6 @@
        */
       var Strand = function(physics, x1, y1, x2, y2) {
 
-        // Reference to the physics the Strand is in.
-        this.physics = physics;
         // Commands make up the set draw calls for rendering SVG Paths.
         this.commands = [];
         // Describes whether the Strand is fixed.
@@ -31,7 +29,7 @@
         // Physics.Springs related variables.
         this.mass = 0.2;
         this.strength = 0.7;
-        this.drag = Physics.DEFAULT_DRAG;
+        this.drag = null;
         this.restLength = 0;
 
         // The first end-point of the line.
@@ -221,9 +219,10 @@
         var $svg = $('#splash');
         var svg = $svg[0];
         // Mouse and positioning related variables
-        var offset, mouse = new Physics.Vector();
 
         var physics = new Physics();
+
+        var offset, mouse = new physics.Vector();
 
         // The dimensions of the svg
         var width = svg.width.baseVal.value;
@@ -308,20 +307,5 @@
       });
 
     </script>
-
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-35459584-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
-
   </body>
 </html>

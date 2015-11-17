@@ -20,14 +20,15 @@
 
       var canvas = document.getElementById('canvas-field');
       var ctx = canvas.getContext('2d');
-      var mouse = new Physics.Vector(null, null);
 
       var gravity = 0.01, drag = Physics.DEFAULT_DRAG;
 
-      var physics = new Physics(gravity, drag);
+      var physics = new Physics(null, gravity, drag);
       var corners = [];
       var current_particle;
       var particles = [];
+
+      var mouse = new physics.Vector(null, null);
 
       var gridStepX = (canvas.width / 2) / grid_size;
       var gridStepY = (canvas.height / 2) / grid_size;
