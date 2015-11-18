@@ -1,35 +1,37 @@
-import Vector from './Vector'
+/**
+ * This file is part of the physics library.
+ *
+ * (c) Magnus Bergman <hello@magnus.sexy>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import Vec2 from './Vec2'
 import Particle from './Particle'
 import Spring from './Spring'
 import Attraction from './Attraction'
 import Integrator from './Integrator'
-import * as utils from './utils'
-
-/**
- * traer.js
- * A particle-based physics engine ported from Jeff Traer's Processing
- * library to JavaScript. This version is intended for use with the
- * HTML5 canvas element. It is dependent on Three.js' Vector2 class,
- * but can be overridden with any Vector2 class with the methods included.
- *
- * @author Jeffrey Traer Bernstein <jeff TA traer TOD cc> (original Java library)
- * @author Adam Saponara <saponara TA gmail TOD com> (JavaScript port)
- * @author Jono Brandel <http://jonobr1.com/> (requirified/optimization port)
- *
- * @version 0.3
- * @date March 25, 2012
- */
 
 const DEFAULT_GRAVITY = 0
 const DEFAULT_DRAG = 0.001
 
 /**
- * The whole kit and kaboodle.
+ * This is the ParticleSystem class.
  *
- * @class
+ * @author Magnus Bergman <hello@magnus.sexy>
  */
 export default class ParticleSystem {
 
+  /**
+   * Create a ParticleSystem.
+   *
+   * @param {number} gravityX
+   * @param {number} gravityY
+   * @param {number} drag
+   *
+   * @return void
+   */
   constructor (gravityX = DEFAULT_GRAVITY, gravityY = DEFAULT_GRAVITY, drag = DEFAULT_DRAG) {
     this.equilibriumCriteria = {
       particles: true,
@@ -47,22 +49,20 @@ export default class ParticleSystem {
     this.integrator = new Integrator(this)
     this.hasDeadParticles = false
 
-    this.Attraction = Attraction
-    this.Integrator = Integrator
-    this.Particle = Particle
-    this.Spring = Spring
-    this.Vector = Vector
-
     this.DEFAULT_GRAVITY = DEFAULT_GRAVITY
     this.DEFAULT_DRAG = DEFAULT_DRAG
 
-    this.gravity = new Vector(gravityX, gravityY)
+    this.gravity = new Vec2(gravityX, gravityY)
     this.drag = drag
   }
 
   /**
    * Set whether to optimize the simulation. This enables the check of whether
    * particles are moving.
+   *
+   * @param {bool} b
+   *
+   * @return {object} Instance of ParticleSystem.
    */
   optimize (b) {
     this.optimized = !!b
@@ -71,7 +71,12 @@ export default class ParticleSystem {
   }
 
   /**
-   * Set the gravity of the ParticleSystem.
+   * Set global gravity for the system.
+   *
+   * @param {number} x
+   * @param {number} y
+   *
+   * @return {object} Instance of ParticleSystem.
    */
   setGravity (x, y) {
     this.gravity.set(x, y)
@@ -80,8 +85,14 @@ export default class ParticleSystem {
   }
 
   /**
-  * Sets the criteria for equilibrium
-  */
+   * Set criteria for equilibrium.
+   *
+   * @param {array} particles
+   * @param {array} springs
+   * @param {array} attractions
+   *
+   * @return {void}
+   */
   setEquilibriumCriteria (particles, springs, attractions) {
     this.equilibriumCriteria.particles = !!particles
     this.equilibriumCriteria.springs = !!springs
@@ -90,6 +101,8 @@ export default class ParticleSystem {
 
   /**
    * Update the integrator
+   *
+   * @return {object} Instance of ParticleSystem.
    */
   tick () {
     this.integrator.step(arguments.length === 0 ? 1 : arguments[0])
@@ -102,8 +115,10 @@ export default class ParticleSystem {
   }
 
   /**
-   * Checks all springs and attractions to see if the contained particles are
-   * inert / resting and returns a boolean.
+   * Checks all particles, springs and attractions to see if the particles/
+   * contained particles are inert/resting and returns a boolean.
+   *
+   * @return {bool}
    */
   needsUpdate () {
     if (this.equilibriumCriteria.particles) {
@@ -135,6 +150,10 @@ export default class ParticleSystem {
 
   /**
    * Add a particle to the ParticleSystem.
+   *
+   * @param {Particle} p
+   *
+   * @return {ParticleSystem}
    */
   addParticle (p) {
     this.particles.push(p)
@@ -144,6 +163,10 @@ export default class ParticleSystem {
 
   /**
    * Add a spring to the ParticleSystem.
+   *
+   * @param {Spring} s
+   *
+   * @return {ParticleSystem}
    */
   addSpring (s) {
     this.springs.push(s)
@@ -153,6 +176,10 @@ export default class ParticleSystem {
 
   /**
    * Add an attraction to the ParticleSystem.
+   *
+   * @param {Attraction} a
+   *
+   * @return {ParticleSystem}
    */
   addAttraction (a) {
     this.attractions.push(a)
@@ -161,22 +188,34 @@ export default class ParticleSystem {
   }
 
   /**
-   * Makes and then adds Particle to ParticleSystem.
+   * Creates and then adds Particle to ParticleSystem.
+   *
+   * @param {number} mass
+   * @param {number} x
+   * @param {number} y
+   *
+   * @return {Particle}
    */
-  makeParticle (m, x = 0, y = 0) {
-    const mass = utils.isNumeric(m) ? m : 1.0
+  createParticle (mass, x, y) {
+    const particle = new Particle(mass, x, y)
 
-    const p = new Particle(mass, x, y)
+    this.addParticle(particle)
 
-    this.addParticle(p)
-
-    return p
+    return particle
   }
 
   /**
-   * Makes and then adds Spring to ParticleSystem.
+   * Create and then adds Spring to ParticleSystem.
+   *
+   * @param {Particle} a
+   * @param {Particle} b
+   * @param {number} k
+   * @param {number} d
+   * @param {number} l
+   *
+   * @return {Spring}
    */
-  makeSpring (a, b, k, d, l) {
+  createSpring (a, b, k, d, l) {
     const spring = new Spring(a, b, k, d, l)
 
     this.addSpring(spring)
@@ -185,9 +224,16 @@ export default class ParticleSystem {
   }
 
   /**
-   * Makes and then adds Attraction to ParticleSystem.
+   * Create and then adds Attraction to ParticleSystem.
+   *
+   * @param {Particle} a
+   * @param {Particle} b
+   * @param {number} k
+   * @param {number} d
+   *
+   * @return {Attraction}
    */
-  makeAttraction (a, b, k, d) {
+  createAttraction (a, b, k, d) {
     const attraction = new Attraction(a, b, k, d)
 
     this.addAttraction(attraction)
@@ -196,7 +242,9 @@ export default class ParticleSystem {
   }
 
   /**
-   * Wipe the ParticleSystem clean.
+   * Clears the ParticleSystem of all particles, springs and attractions.
+   *
+   * @return {void}
    */
   clear () {
     this.particles.length = 0
@@ -206,6 +254,8 @@ export default class ParticleSystem {
 
   /**
    * Calculate and apply forces.
+   *
+   * @return {ParticleSystem}
    */
   applyForces () {
     if (!this.gravity.isZero()) {
@@ -214,7 +264,7 @@ export default class ParticleSystem {
       }
     }
 
-    const t = new Vector()
+    const t = new Vec2()
 
     for (let i = 0; i < this.particles.length; i++) {
       const p = this.particles[i]
@@ -240,7 +290,9 @@ export default class ParticleSystem {
   }
 
   /**
-   * Clear all particles in the system.
+   * Clears all forces from particles in the system.
+   *
+   * @return {ParticleSystem}
    */
   clearForces () {
     for (var i = 0; i < this.particles.length; i++) {

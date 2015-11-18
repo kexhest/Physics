@@ -1,12 +1,33 @@
-import Vector from './Vector'
+/**
+ * This file is part of the physics library.
+ *
+ * (c) Magnus Bergman <hello@magnus.sexy>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+import Vec2 from './Vec2'
+
+/**
+ * This is the Particle class.
+ *
+ * @author Magnus Bergman <hello@magnus.sexy>
+ */
 export default class Particle {
 
-  constructor (mass, x, y) {
-    this.position = new Vector(x, y)
+  /**
+   * Create a Particle.
+   *
+   * @param {number} mass
+   * @param {number} x
+   * @param {number} y
+   */
+  constructor (mass = 1.0, x = 0, y = 0) {
+    this.position = new Vec2(x, y)
 
-    this.velocity = new Vector()
-    this.force = new Vector()
+    this.velocity = new Vec2()
+    this.force = new Vec2()
 
     this.mass = mass
 
@@ -17,16 +38,22 @@ export default class Particle {
   }
 
   /**
-   * Get the distance between two particles.
+   * Get the distance to another particle.
+   *
+   * @param {Particle} p
+   *
+   * @return {number}
    */
   distanceTo (p) {
     return this.position.distanceTo(p.position)
   }
 
   /**
-   * Make the particle fixed in 2D space.
+   * Lock the position of the particle.
+   *
+   * @return {Particle}
    */
-  makeFixed () {
+  fix () {
     this.fixed = true
     this.velocity.clear()
 
@@ -34,7 +61,9 @@ export default class Particle {
   }
 
   /**
-   * Reset a particle.
+   * Reset the particle.
+   *
+   * @return {Particle}
    */
   reset () {
     this.clear()
@@ -50,7 +79,9 @@ export default class Particle {
   }
 
   /**
-   * Returns a boolean describing whether the particle is in movement.
+   * Check whether the particle is resting.
+   *
+   * @return {bool}
    */
   resting () {
     return this.fixed || this.velocity.isZero() && this.force.isZero()

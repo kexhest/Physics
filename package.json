@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "Port of the Traer Physics Library from Processing.",
   "homepage": "http://jonobr1.github.io/Physics/",
-  "author": "Jono Brandel (http://jonobr1.com)",
-  "contributors": [
-    "Magnus Bergman <hello@magnus.sexy> (https://magnus.sexy)"
-  ],
+  "author": "Magnus Bergman <hello@magnus.sexy> (https://magnus.sexy)",
   "keywords": [
     "physics",
     "traer"

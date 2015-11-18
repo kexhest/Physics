@@ -1,7 +1,30 @@
-import Vector from './Vector'
+/**
+ * This file is part of the physics library.
+ *
+ * (c) Magnus Bergman <hello@magnus.sexy>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+import Vec2 from './Vec2'
+
+/**
+ * This is the Spring class.
+ *
+ * @author Magnus Bergman <hello@magnus.sexy>
+ */
 export default class Spring {
 
+  /**
+   * Create a Spring.
+   *
+   * @param {Particle} a
+   * @param {Particle} b
+   * @param {number} k
+   * @param {number} d
+   * @param {number} l
+   */
   constructor (a, b, k, d, l) {
     this.a = a
     this.b = b
@@ -14,38 +37,41 @@ export default class Spring {
   }
 
   /**
-   * Returns the distance between particle a and particle b
-   * in 2D space.
+   * Calculate the distance between the particles.
+   *
+   * @return {number}
    */
   currentLength () {
     return this.a.position.distanceTo(this.b.position)
   }
 
   /**
-   * Update spring logic.
+   * Calculate and add forces to the particles.
+   *
+   * @return {void}
    */
   update () {
-    var a = this.a
-    var b = this.b
+    const a = this.a
+    const b = this.b
 
     if (!(this.on && (!a.fixed || !b.fixed))) return this
 
-    var a2b = new Vector().sub(a.position, b.position)
-    var d = a2b.length()
+    const a2b = new Vec2().sub(a.position, b.position)
+    const d = a2b.length()
 
     if (d === 0) {
       a2b.clear()
     } else {
-      a2b.divideScalar(d)  // Essentially normalize
+      a2b.divideScalar(d)
     }
 
-    var fspring = -1 * (d - this.length) * this.constant
+    const fspring = -1 * (d - this.length) * this.constant
 
-    var va2b = new Vector().sub(a.velocity, b.velocity)
+    const va2b = new Vec2().sub(a.velocity, b.velocity)
 
-    var fdamping = -1 * this.damping * va2b.dot(a2b)
+    const fdamping = -1 * this.damping * va2b.dot(a2b)
 
-    var fr = fspring + fdamping
+    const fr = fspring + fdamping
 
     a2b.multiplyScalar(fr)
 
@@ -60,14 +86,14 @@ export default class Spring {
   }
 
   /**
-   * Returns a boolean describing whether the spring is resting or not.
-   * Convenient for knowing whether or not the spring needs another update
-   * tick.
+   * Check whether the particles affected by the spring are resting.
+   *
+   * @return {bool}
    */
   resting () {
-    var a = this.a
-    var b = this.b
-    var l = this.length
+    const a = this.a
+    const b = this.b
+    const l = this.length
 
     return !this.on || (a.fixed && b.fixed) ||
       (a.fixed && (l === 0 ? b.position.equals(a.position) : b.position.distanceTo(a.position) <= l) && b.resting()) ||

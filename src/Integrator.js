@@ -1,14 +1,31 @@
-import Vector from './Vector'
+/**
+ * This file is part of the physics library.
+ *
+ * (c) Magnus Bergman <hello@magnus.sexy>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import Vec2 from './Vec2'
+
+/**
+ * This is the Integrator class.
+ *
+ * Runge Kutta Integrator
+ * https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
+ *
+ * @author Magnus Bergman <hello@magnus.sexy>
+ */
+export default class Integrator {
 
   /**
-   * Runge Kutta Integrator
-   * http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
+   * Create an Integrator.
    *
-   * @class
+   * @param {ParticleSystem} ParticleSystem
    */
-export default class Integrator {
-  constructor (system) {
-    this.system = system
+  constructor (ParticleSystem) {
+    this.system = ParticleSystem
 
     this.originalPositions = []
     this.originalVelocities = []
@@ -26,27 +43,39 @@ export default class Integrator {
     this.k4Velocities = []
   }
 
+  /**
+   * Allocate space for the particles in the system.
+   *
+   * @return {Integrator}
+   */
   allocateParticles () {
     while (this.system.particles.length > this.originalPositions.length) {
-      this.originalPositions.push(new Vector())
-      this.originalVelocities.push(new Vector())
+      this.originalPositions.push(new Vec2())
+      this.originalVelocities.push(new Vec2())
 
-      this.k1Forces.push(new Vector())
-      this.k1Velocities.push(new Vector())
+      this.k1Forces.push(new Vec2())
+      this.k1Velocities.push(new Vec2())
 
-      this.k2Forces.push(new Vector())
-      this.k2Velocities.push(new Vector())
+      this.k2Forces.push(new Vec2())
+      this.k2Velocities.push(new Vec2())
 
-      this.k3Forces.push(new Vector())
-      this.k3Velocities.push(new Vector())
+      this.k3Forces.push(new Vec2())
+      this.k3Velocities.push(new Vec2())
 
-      this.k4Forces.push(new Vector())
-      this.k4Velocities.push(new Vector())
+      this.k4Forces.push(new Vec2())
+      this.k4Velocities.push(new Vec2())
     }
 
     return this
   }
 
+  /**
+   * Traverse the Integrator and clear/apply forces.
+   *
+   * @param {number} time
+   *
+   * @return {Integrator}
+   */
   step (time) {
     const s = this.system
 

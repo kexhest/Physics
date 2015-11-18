@@ -1,8 +1,30 @@
-import Vector from './Vector'
+/**
+ * This file is part of the physics library.
+ *
+ * (c) Magnus Bergman <hello@magnus.sexy>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import Vec2 from './Vec2'
 import * as m from './utils/math'
 
+/**
+ * This is the Attraction class.
+ *
+ * @author Magnus Bergman <hello@magnus.sexy>
+ */
 export default class Attraction {
 
+  /**
+   * Create an Attraction.
+   *
+   * @param {Particle} a
+   * @param {Particle} b
+   * @param {number} k
+   * @param {number} d
+   */
   constructor (a, b, k, d) {
     this.a = a
     this.b = b
@@ -12,6 +34,11 @@ export default class Attraction {
     this.distanceMinSquared = d * d
   }
 
+  /**
+   * Caclulate the forces on the particles affected by the Attraction.
+   *
+   * @return {Attraction}
+   */
   update () {
     const a = this.a
     const b = this.b
@@ -20,7 +47,7 @@ export default class Attraction {
       return
     }
 
-    const a2b = new Vector().sub(a.position, b.position)
+    const a2b = new Vec2().sub(a.position, b.position)
 
     const a2bdistanceSquared = m.max(a2b.lengthSquared(), this.distanceMinSquared)
 
@@ -45,9 +72,9 @@ export default class Attraction {
   }
 
   /**
-   * Returns a boolean describing whether the spring is resting or not.
-   * Convenient for knowing whether or not the spring needs another update
-   * tick.
+   * Check whether the particles affected by the attraction are resting.
+   *
+   * @return {bool}
    */
   resting () {
     const a = this.a
