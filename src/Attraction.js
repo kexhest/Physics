@@ -20,8 +20,8 @@ export default class Attraction {
   /**
    * Create an Attraction.
    *
-   * @param {Particle} a
-   * @param {Particle} b
+   * @param {Point} a
+   * @param {Point} b
    * @param {number} k
    * @param {number} d
    */
@@ -35,7 +35,7 @@ export default class Attraction {
   }
 
   /**
-   * Caclulate the forces on the particles affected by the Attraction.
+   * Caclulate the forces on the points affected by the Attraction.
    *
    * @return {Attraction}
    */
@@ -72,7 +72,7 @@ export default class Attraction {
   }
 
   /**
-   * Check whether the particles affected by the attraction are resting.
+   * Check whether the points affected by the attraction are resting.
    *
    * @return {bool}
    */

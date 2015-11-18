@@ -19,8 +19,8 @@ export default class Spring {
   /**
    * Create a Spring.
    *
-   * @param {Particle} a
-   * @param {Particle} b
+   * @param {Point} a
+   * @param {Point} b
    * @param {number} k
    * @param {number} d
    * @param {number} l
@@ -37,7 +37,7 @@ export default class Spring {
   }
 
   /**
-   * Calculate the distance between the particles.
+   * Calculate the distance between the points.
    *
    * @return {number}
    */
@@ -46,7 +46,7 @@ export default class Spring {
   }
 
   /**
-   * Calculate and add forces to the particles.
+   * Calculate and add forces to the points.
    *
    * @return {void}
    */
@@ -86,7 +86,7 @@ export default class Spring {
   }
 
   /**
-   * Check whether the particles affected by the spring are resting.
+   * Check whether the points affected by the spring are resting.
    *
    * @return {bool}
    */

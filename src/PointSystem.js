@@ -8,7 +8,7 @@
  */
 
 import Vec2 from './Vec2'
-import Particle from './Particle'
+import Point from './Point'
 import Spring from './Spring'
 import Attraction from './Attraction'
 import Integrator from './Integrator'
@@ -17,14 +17,14 @@ const DEFAULT_GRAVITY = 0
 const DEFAULT_DRAG = 0.001
 
 /**
- * This is the ParticleSystem class.
+ * This is the PointSystem class.
  *
  * @author Magnus Bergman <hello@magnus.sexy>
  */
-export default class ParticleSystem {
+export default class PointSystem {
 
   /**
-   * Create a ParticleSystem.
+   * Create a PointSystem.
    *
    * @param {number} gravityX
    * @param {number} gravityY
@@ -34,7 +34,7 @@ export default class ParticleSystem {
    */
   constructor (gravityX = DEFAULT_GRAVITY, gravityY = DEFAULT_GRAVITY, drag = DEFAULT_DRAG) {
     this.equilibriumCriteria = {
-      particles: true,
+      points: true,
       springs: true,
       attractions: true
     }
@@ -42,12 +42,12 @@ export default class ParticleSystem {
     this.equilibrium = false // are we at equilibrium?
     this.optimized = false
 
-    this.particles = []
+    this.points = []
     this.springs = []
     this.attractions = []
     this.forces = []
     this.integrator = new Integrator(this)
-    this.hasDeadParticles = false
+    this.hasDeadPoints = false
 
     this.DEFAULT_GRAVITY = DEFAULT_GRAVITY
     this.DEFAULT_DRAG = DEFAULT_DRAG
@@ -58,11 +58,11 @@ export default class ParticleSystem {
 
   /**
    * Set whether to optimize the simulation. This enables the check of whether
-   * particles are moving.
+   * points are moving.
    *
    * @param {bool} b
    *
-   * @return {object} Instance of ParticleSystem.
+   * @return {object} Instance of PointSystem.
    */
   optimize (b) {
     this.optimized = !!b
@@ -76,7 +76,7 @@ export default class ParticleSystem {
    * @param {number} x
    * @param {number} y
    *
-   * @return {object} Instance of ParticleSystem.
+   * @return {object} Instance of PointSystem.
    */
   setGravity (x, y) {
     this.gravity.set(x, y)
@@ -87,14 +87,14 @@ export default class ParticleSystem {
   /**
    * Set criteria for equilibrium.
    *
-   * @param {array} particles
+   * @param {array} points
    * @param {array} springs
    * @param {array} attractions
    *
    * @return {void}
    */
-  setEquilibriumCriteria (particles, springs, attractions) {
-    this.equilibriumCriteria.particles = !!particles
+  setEquilibriumCriteria (points, springs, attractions) {
+    this.equilibriumCriteria.points = !!points
     this.equilibriumCriteria.springs = !!springs
     this.equilibriumCriteria.attractions = !!attractions
   }
@@ -102,7 +102,7 @@ export default class ParticleSystem {
   /**
    * Update the integrator
    *
-   * @return {object} Instance of ParticleSystem.
+   * @return {object} Instance of PointSystem.
    */
   tick () {
     this.integrator.step(arguments.length === 0 ? 1 : arguments[0])
@@ -115,15 +115,15 @@ export default class ParticleSystem {
   }
 
   /**
-   * Checks all particles, springs and attractions to see if the particles/
-   * contained particles are inert/resting and returns a boolean.
+   * Checks all points, springs and attractions to see if the points/
+   * contained points are inert/resting and returns a boolean.
    *
    * @return {bool}
    */
   needsUpdate () {
-    if (this.equilibriumCriteria.particles) {
-      for (let i = 0; i < this.particles.length; i++) {
-        if (!this.particles[i].resting()) {
+    if (this.equilibriumCriteria.points) {
+      for (let i = 0; i < this.points.length; i++) {
+        if (!this.points[i].resting()) {
           return true
         }
       }
@@ -149,24 +149,24 @@ export default class ParticleSystem {
   }
 
   /**
-   * Add a particle to the ParticleSystem.
+   * Add a point to the PointSystem.
    *
-   * @param {Particle} p
+   * @param {Point} p
    *
-   * @return {ParticleSystem}
+   * @return {PointSystem}
    */
-  addParticle (p) {
-    this.particles.push(p)
+  addPoint (p) {
+    this.points.push(p)
 
     return this
   }
 
   /**
-   * Add a spring to the ParticleSystem.
+   * Add a spring to the PointSystem.
    *
    * @param {Spring} s
    *
-   * @return {ParticleSystem}
+   * @return {PointSystem}
    */
   addSpring (s) {
     this.springs.push(s)
@@ -175,11 +175,11 @@ export default class ParticleSystem {
   }
 
   /**
-   * Add an attraction to the ParticleSystem.
+   * Add an attraction to the PointSystem.
    *
    * @param {Attraction} a
    *
-   * @return {ParticleSystem}
+   * @return {PointSystem}
    */
   addAttraction (a) {
     this.attractions.push(a)
@@ -188,27 +188,27 @@ export default class ParticleSystem {
   }
 
   /**
-   * Creates and then adds Particle to ParticleSystem.
+   * Creates and then adds Point to PointSystem.
    *
    * @param {number} mass
    * @param {number} x
    * @param {number} y
    *
-   * @return {Particle}
+   * @return {Point}
    */
-  createParticle (mass, x, y) {
-    const particle = new Particle(mass, x, y)
+  createPoint (mass, x, y) {
+    const point = new Point(mass, x, y)
 
-    this.addParticle(particle)
+    this.addPoint(point)
 
-    return particle
+    return point
   }
 
   /**
-   * Create and then adds Spring to ParticleSystem.
+   * Create and then adds Spring to PointSystem.
    *
-   * @param {Particle} a
-   * @param {Particle} b
+   * @param {Point} a
+   * @param {Point} b
    * @param {number} k
    * @param {number} d
    * @param {number} l
@@ -224,10 +224,10 @@ export default class ParticleSystem {
   }
 
   /**
-   * Create and then adds Attraction to ParticleSystem.
+   * Create and then adds Attraction to PointSystem.
    *
-   * @param {Particle} a
-   * @param {Particle} b
+   * @param {Point} a
+   * @param {Point} b
    * @param {number} k
    * @param {number} d
    *
@@ -242,12 +242,12 @@ export default class ParticleSystem {
   }
 
   /**
-   * Clears the ParticleSystem of all particles, springs and attractions.
+   * Clears the PointSystem of all points, springs and attractions.
    *
    * @return {void}
    */
   clear () {
-    this.particles.length = 0
+    this.points.length = 0
     this.springs.length = 0
     this.attractions.length = 0
   }
@@ -255,19 +255,19 @@ export default class ParticleSystem {
   /**
    * Calculate and apply forces.
    *
-   * @return {ParticleSystem}
+   * @return {PointSystem}
    */
   applyForces () {
     if (!this.gravity.isZero()) {
-      for (let i = 0; i < this.particles.length; i++) {
-        this.particles[i].force.addSelf(this.gravity)
+      for (let i = 0; i < this.points.length; i++) {
+        this.points[i].force.addSelf(this.gravity)
       }
     }
 
     const t = new Vec2()
 
-    for (let i = 0; i < this.particles.length; i++) {
-      const p = this.particles[i]
+    for (let i = 0; i < this.points.length; i++) {
+      const p = this.points[i]
 
       t.set(p.velocity.x * -1 * this.drag, p.velocity.y * -1 * this.drag)
 
@@ -290,13 +290,13 @@ export default class ParticleSystem {
   }
 
   /**
-   * Clears all forces from particles in the system.
+   * Clears all forces from points in the system.
    *
-   * @return {ParticleSystem}
+   * @return {PointSystem}
    */
   clearForces () {
-    for (var i = 0; i < this.particles.length; i++) {
-      this.particles[i].clear()
+    for (var i = 0; i < this.points.length; i++) {
+      this.points[i].clear()
     }
 
     return this

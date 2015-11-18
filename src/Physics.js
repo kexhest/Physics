@@ -8,14 +8,14 @@
  */
 
 import rAF from 'raf'
-import ParticleSystem from './ParticleSystem'
+import PointSystem from './PointSystem'
 
 /**
  * This is the Physics class.
  *
  * @author Magnus Bergman <hello@magnus.sexy>
  */
-export default class Physics extends ParticleSystem {
+export default class Physics extends PointSystem {
 
   /**
    * Create Physics.

@@ -10,14 +10,14 @@
 import Vec2 from './Vec2'
 
 /**
- * This is the Particle class.
+ * This is the Point class.
  *
  * @author Magnus Bergman <hello@magnus.sexy>
  */
-export default class Particle {
+export default class Point {
 
   /**
-   * Create a Particle.
+   * Create a Point.
    *
    * @param {number} mass
    * @param {number} x
@@ -38,9 +38,9 @@ export default class Particle {
   }
 
   /**
-   * Get the distance to another particle.
+   * Get the distance to another point.
    *
-   * @param {Particle} p
+   * @param {Point} p
    *
    * @return {number}
    */
@@ -49,9 +49,9 @@ export default class Particle {
   }
 
   /**
-   * Lock the position of the particle.
+   * Lock the position of the point.
    *
-   * @return {Particle}
+   * @return {Point}
    */
   fix () {
     this.fixed = true
@@ -61,9 +61,9 @@ export default class Particle {
   }
 
   /**
-   * Reset the particle.
+   * Reset the point.
    *
-   * @return {Particle}
+   * @return {Point}
    */
   reset () {
     this.clear()
@@ -79,7 +79,7 @@ export default class Particle {
   }
 
   /**
-   * Check whether the particle is resting.
+   * Check whether the point is resting.
    *
    * @return {bool}
    */

@@ -22,10 +22,10 @@ export default class Integrator {
   /**
    * Create an Integrator.
    *
-   * @param {ParticleSystem} ParticleSystem
+   * @param {PointSystem} PointSystem
    */
-  constructor (ParticleSystem) {
-    this.system = ParticleSystem
+  constructor (PointSystem) {
+    this.system = PointSystem
 
     this.originalPositions = []
     this.originalVelocities = []
@@ -44,12 +44,12 @@ export default class Integrator {
   }
 
   /**
-   * Allocate space for the particles in the system.
+   * Allocate space for the points in the system.
    *
    * @return {Integrator}
    */
-  allocateParticles () {
-    while (this.system.particles.length > this.originalPositions.length) {
+  allocatePoints () {
+    while (this.system.points.length > this.originalPositions.length) {
       this.originalPositions.push(new Vec2())
       this.originalVelocities.push(new Vec2())
 
@@ -79,10 +79,10 @@ export default class Integrator {
   step (time) {
     const s = this.system
 
-    this.allocateParticles()
+    this.allocatePoints()
 
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         this.originalPositions[i].copy(p.position)
@@ -95,8 +95,8 @@ export default class Integrator {
     s.applyForces()
 
     // K1
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         this.k1Forces[i].copy(p.force)
@@ -107,8 +107,8 @@ export default class Integrator {
     }
 
     // K2
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         const op = this.originalPositions[i]
@@ -131,8 +131,8 @@ export default class Integrator {
 
     s.applyForces()
 
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         this.k2Forces[i].copy(p.force)
@@ -143,8 +143,8 @@ export default class Integrator {
     }
 
     // K3
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         const op = this.originalPositions[i]
@@ -161,8 +161,8 @@ export default class Integrator {
 
     s.applyForces()
 
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         this.k3Forces[i].copy(p.force)
@@ -173,8 +173,8 @@ export default class Integrator {
     }
 
     // K4
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         const op = this.originalPositions[i]
@@ -191,8 +191,8 @@ export default class Integrator {
 
     s.applyForces()
 
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       if (!p.fixed) {
         this.k4Forces[i].copy(p.force)
@@ -201,8 +201,8 @@ export default class Integrator {
     }
 
     // TOTAL
-    for (let i = 0; i < s.particles.length; i++) {
-      const p = s.particles[i]
+    for (let i = 0; i < s.points.length; i++) {
+      const p = s.points[i]
 
       p.age += time
 
