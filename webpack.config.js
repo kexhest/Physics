@@ -3,7 +3,6 @@ var webpack = require('webpack')
 var objectAssign = require('object-assign')
 
 var production = process.env.NODE_ENV === 'production'
-var dev = process.env.NODE_ENV === 'dev'
 var test = process.env.NODE_ENV === 'test'
 
 var config = {
@@ -25,8 +24,6 @@ var config = {
 
 if (!test) {
   objectAssign(config, {
-    debug: dev,
-    devtool: dev ? 'eval-source-map' : undefined,
 
     entry: [
       path.resolve(__dirname, 'lib', 'index.js')
@@ -34,61 +31,10 @@ if (!test) {
 
     output: {
       path: path.resolve(__dirname, 'build'),
-      filename: production ? 'physics.min.js' : 'physics.js',
-      library: 'Physics',
+      filename: production ? 'traer.min.js' : 'traer.js',
+      library: 'TRAER',
       libraryTarget: 'umd'
     },
-
-    externals: [
-      {
-        'Vector': {
-          root: 'Vector',
-          commonjs2: 'Vector',
-          commonjs: ['Physics', 'Vector'],
-          amd: 'Vector'
-        }
-      },
-      {
-        'ParticleSystem': {
-          root: 'ParticleSystem',
-          commonjs2: 'ParticleSystem',
-          commonjs: ['Physics', 'ParticleSystem'],
-          amd: 'ParticleSystem'
-        }
-      },
-      {
-        'Particle': {
-          root: 'Particle',
-          commonjs2: 'Particle',
-          commonjs: ['Physics', 'Particle'],
-          amd: 'Particle'
-        }
-      },
-      {
-        'Attraction': {
-          root: 'Attraction',
-          commonjs2: 'Attraction',
-          commonjs: ['Physics', 'Attraction'],
-          amd: 'Attraction'
-        }
-      },
-      {
-        'Integrator': {
-          root: 'Integrator',
-          commonjs2: 'Integrator',
-          commonjs: ['Physics', 'Integrator'],
-          amd: 'Integrator'
-        }
-      },
-      {
-        'Spring': {
-          root: 'Spring',
-          commonjs2: 'Spring',
-          commonjs: ['Physics', 'Spring'],
-          amd: 'Spring'
-        }
-      }
-    ],
 
     plugins: [].concat(production ? [
       new webpack.DefinePlugin({

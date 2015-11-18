@@ -1,10 +1,10 @@
 /* global describe, it, assert */
 
-import Vec2 from '../dist/Vec2'
+import Vec2 from '../lib/Vec2'
 
 describe('Vec2', () => {
   it('should create instance with default value', () => {
-    // assert(Vec2).isDefined()
+    assert.isDefined(Vec2)
 
     const v = new Vec2()
 
