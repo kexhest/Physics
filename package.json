@@ -2,39 +2,46 @@
   "name": "physics",
   "version": "1.0.0",
   "description": "Port of the Traer Physics Library from Processing.",
-  "homepage": "http://jonobr1.github.io/Physics/",
-  "author": "Magnus Bergman <hello@magnus.sexy> (https://magnus.sexy)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:magnus-bergman/Physics.git"
+  },
+  "author": {
+    "name": "Magnus Bergman",
+    "email": "hello@magnus.sexy",
+    "url": "https://magnus.sexy"
+  },
   "keywords": [
     "physics",
     "traer"
   ],
   "engines": {
-    "node": "5.0.0",
-    "npm": "3.4.0"
+    "node": ">=0.12.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:magnus-bergman/Physics.git"
-  },
-  "main": "./lib/index.js",
   "scripts": {
+    "prepublish": "npm run compile",
     "test": "NODE_ENV=test karma start karma.conf.js --log-level debug --single-run",
     "lint": "standard",
-    "clean": "rimraf build",
+    "clean": "rimraf build dist",
     "prebuild": "npm run clean -s",
     "build": "npm-run-all build:dev build:prod",
     "build:dev": "NODE_ENV=dev webpack -p --colors --progress",
     "build:prod": "NODE_ENV=production webpack -p --colors --progress",
-    "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile"
+    "precompile": "npm run clean -s",
+    "compile": "babel lib -d dist"
   },
+  "main": "./dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "standard": {
     "parser": "babel-eslint"
   },
   "dependencies": {
+    "raf": "^3.1.0"
+  },
+  "devDependencies": {
     "babel-cli": "^6.1.18",
     "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.5",
@@ -51,11 +58,8 @@
     "mocha": "^2.3.4",
     "npm-run-all": "^1.2.13",
     "object-assign": "^4.0.1",
-    "raf": "^3.1.0",
     "rimraf": "^2.4.3",
     "standard": "^5.4.0",
     "webpack": "^1.12.6"
-  },
-  "devDependencies": {},
-  "license": "MIT"
+  }
 }

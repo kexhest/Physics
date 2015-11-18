@@ -29,7 +29,7 @@ if (!test) {
     devtool: dev ? 'eval-source-map' : undefined,
 
     entry: [
-      path.resolve(__dirname, 'src', 'index.js')
+      path.resolve(__dirname, 'lib', 'index.js')
     ],
 
     output: {

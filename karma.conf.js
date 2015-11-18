@@ -3,10 +3,10 @@ module.exports = function (karma) {
     basePath: '.',
     frameworks: ['mocha', 'sinon-chai'],
     files: [
-      'src/**/__tests__/*'
+      'test/*'
     ],
     preprocessors: {
-      'src/**/__tests__/*': ['webpack']
+      'test/*': ['webpack']
     },
     webpack: require('./webpack.config.js'),
     singleRun: process.env.TRAVIS_CI === 'true',
