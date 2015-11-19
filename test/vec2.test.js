@@ -1,37 +1,37 @@
-/* global describe, it, assert */
+/* global describe, it, expect */
 
 import Vec2 from '../lib/Vec2'
 
 describe('Vec2', () => {
   it('should create instance with default value', () => {
-    assert.isDefined(Vec2)
+    expect(Vec2).to.exist
 
     const v = new Vec2()
 
-    assert.isObject(v)
+    expect(v).to.be.an.instanceof(Vec2)
 
-    assert.equal(v.x, 0)
-    assert.equal(v.y, 0)
+    expect(v.x).to.equal(0)
+    expect(v.y).to.equal(0)
   })
 
   it('should create instance with specific value', () => {
     const v = new Vec2(3, 2)
 
-    assert.equal(v.x, 3)
-    assert.equal(v.y, 2)
+    expect(v.x).to.equal(3)
+    expect(v.y).to.equal(2)
   })
 
   describe('set', () => {
     it('should set value', () => {
       const v = new Vec2(3, 2)
 
-      assert.equal(v.x, 3)
-      assert.equal(v.y, 2)
+      expect(v.x).to.equal(3)
+      expect(v.y).to.equal(2)
 
       v.set(5, 6)
 
-      assert.equal(v.x, 5)
-      assert.equal(v.y, 6)
+      expect(v.x).to.equal(5)
+      expect(v.y).to.equal(6)
     })
   })
 
@@ -42,8 +42,8 @@ describe('Vec2', () => {
 
       v1.copy(v2)
 
-      assert.equal(v1.x, 3)
-      assert.equal(v1.y, 6)
+      expect(v1.x).to.equal(3)
+      expect(v1.y).to.equal(6)
     })
   })
 
@@ -53,8 +53,8 @@ describe('Vec2', () => {
 
       v.clear()
 
-      assert.equal(v.x, 0)
-      assert.equal(v.y, 0)
+      expect(v.x).to.equal(0)
+      expect(v.y).to.equal(0)
     })
   })
 
@@ -66,8 +66,8 @@ describe('Vec2', () => {
 
       v3.add(v1, v2)
 
-      assert.equal(v3.x, 5)
-      assert.equal(v3.y, 9)
+      expect(v3.x).to.equal(5)
+      expect(v3.y).to.equal(9)
     })
   })
 
@@ -78,8 +78,8 @@ describe('Vec2', () => {
 
       v1.addSelf(v2)
 
-      assert.equal(v1.x, 5)
-      assert.equal(v1.y, 9)
+      expect(v1.x).to.equal(5)
+      expect(v1.y).to.equal(9)
     })
   })
 
@@ -91,8 +91,8 @@ describe('Vec2', () => {
 
       v3.sub(v1, v2)
 
-      assert.equal(v3.x, 1)
-      assert.equal(v3.y, 1)
+      expect(v3.x).to.equal(1)
+      expect(v3.y).to.equal(1)
     })
   })
 
@@ -103,8 +103,8 @@ describe('Vec2', () => {
 
       v1.subSelf(v2)
 
-      assert.equal(v1.x, 1)
-      assert.equal(v1.y, 1)
+      expect(v1.x).to.equal(1)
+      expect(v1.y).to.equal(1)
     })
   })
 
@@ -115,8 +115,8 @@ describe('Vec2', () => {
 
       v1.multiplySelf(v2)
 
-      assert.equal(v1.x, 4)
-      assert.equal(v1.y, 6)
+      expect(v1.x).to.equal(4)
+      expect(v1.y).to.equal(6)
     })
   })
 
@@ -126,8 +126,8 @@ describe('Vec2', () => {
 
       v.multiplyScalar(3)
 
-      assert.equal(v.x, 6)
-      assert.equal(v.y, 9)
+      expect(v.x).to.equal(6)
+      expect(v.y).to.equal(9)
     })
   })
 
@@ -137,8 +137,8 @@ describe('Vec2', () => {
 
       v.divideScalar(2)
 
-      assert.equal(v.x, 1)
-      assert.equal(v.y, 2)
+      expect(v.x).to.equal(1)
+      expect(v.y).to.equal(2)
     })
   })
 
@@ -148,8 +148,8 @@ describe('Vec2', () => {
 
       v.negate()
 
-      assert.equal(v.x, -2)
-      assert.equal(v.y, -4)
+      expect(v.x).to.equal(-2)
+      expect(v.y).to.equal(-4)
     })
   })
 
@@ -158,7 +158,7 @@ describe('Vec2', () => {
       const v1 = new Vec2(2, 4)
       const v2 = new Vec2(1, 3)
 
-      assert.equal(v1.dot(v2), 14)
+      expect(v1.dot(v2)).to.equal(14)
     })
   })
 
@@ -166,7 +166,7 @@ describe('Vec2', () => {
     it('should return the length squared', () => {
       const v = new Vec2(2, 4)
 
-      assert.equal(v.lengthSquared(), 20)
+      expect(v.lengthSquared()).to.equal(20)
     })
   })
 
@@ -174,7 +174,7 @@ describe('Vec2', () => {
     it('should return the length', () => {
       const v = new Vec2(2, 4)
 
-      assert.equal(v.length(), 4.47213595499958)
+      expect(v.length()).to.equal(4.47213595499958)
     })
   })
 
@@ -184,8 +184,8 @@ describe('Vec2', () => {
 
       const norm = v.normalize()
 
-      assert.equal(norm.x, 0.4472135954999579)
-      assert.equal(norm.y, 0.8944271909999159)
+      expect(norm.x).to.equal(0.4472135954999579)
+      expect(norm.y).to.equal(0.8944271909999159)
     })
   })
 
@@ -194,7 +194,7 @@ describe('Vec2', () => {
       const v1 = new Vec2()
       const v2 = new Vec2(2, 4)
 
-      assert.equal(v1.distanceTo(v2), 4.47213595499958)
+      expect(v1.distanceTo(v2)).to.equal(4.47213595499958)
     })
   })
 
@@ -203,7 +203,7 @@ describe('Vec2', () => {
       const v1 = new Vec2()
       const v2 = new Vec2(2, 4)
 
-      assert.equal(v1.distanceToSquared(v2), 20)
+      expect(v1.distanceToSquared(v2)).to.equal(20)
     })
   })
 
@@ -213,8 +213,8 @@ describe('Vec2', () => {
 
       const len = v.setLength(10)
 
-      assert.equal(len.x, 7.071067811865475)
-      assert.equal(len.y, 7.071067811865475)
+      expect(len.x).to.equal(7.071067811865475)
+      expect(len.y).to.equal(7.071067811865475)
     })
   })
 
@@ -223,11 +223,11 @@ describe('Vec2', () => {
       const v1 = new Vec2(5, 5)
       const v2 = new Vec2(5, 5)
 
-      assert.isTrue(v1.equals(v2))
+      expect(v1.equals(v2)).to.be.true
 
       v2.set(1, 1)
 
-      assert.isFalse(v1.equals(v2))
+      expect(v1.equals(v2)).to.be.false
     })
   })
 
@@ -238,8 +238,8 @@ describe('Vec2', () => {
 
       v1.lerp(v2, 1)
 
-      assert.equal(v1.x, 5)
-      assert.equal(v1.y, 5)
+      expect(v1.x).to.equal(5)
+      expect(v1.y).to.equal(5)
     })
   })
 
@@ -247,7 +247,7 @@ describe('Vec2', () => {
     it('should return true if vector length is zero', () => {
       const v = new Vec2()
 
-      assert.isTrue(v.isZero())
+      expect(v.isZero()).to.be.true
     })
   })
 })
